@@ -1,0 +1,103 @@
+$scrollar-size: 6px;
+$scrollar-handle-container-radius: 3px;
+$scrollar-handle-radius: 3px;
+
+.scrollar-wrapper > * {
+  box-sizing: border-box;
+}
+
+.scrollar-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative !important;
+  overflow: hidden;
+  outline: none;
+}
+
+.scrollar-fade-hover {
+  &:not([data-scrollar-hold]) > .scrollar-axis {
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  &:hover {
+    > .scrollar-axis {
+      opacity: 1;
+    }
+  }
+}
+
+.scrollar-parent-absolute .scrollar-content {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.scrollar-mmb-x {
+  cursor: e-resize;
+}
+
+.scrollar-mmb-y {
+  cursor: n-resize;
+}
+
+.scrollar-mmb-both {
+  cursor: e-resize;
+}
+
+.scrollar-content {
+  position: relative;
+}
+
+.scrollar-axis {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+
+  &.scrollar-axis-x {
+    bottom: 0;
+    left: 0;
+    height: $scrollar-size;
+
+    &.scrollar-both-axis {
+      right: $scrollar-size + 2;
+    }
+
+    .scrollar-handle {
+      bottom: 0;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &.scrollar-axis-y {
+    top: 0;
+    bottom: 0;
+    width: $scrollar-size;
+
+    .scrollar-handle {
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+.scrollar-handle-container {
+  background-color: rgba(#000, 0.2);
+  border-radius: $scrollar-handle-container-radius;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.scrollar-handle {
+  background-color: rgba(#000, 0.3);
+  border-radius: $scrollar-handle-radius;
+  cursor: pointer;
+
+  position: absolute;
+}

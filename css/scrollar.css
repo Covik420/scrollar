@@ -1,0 +1,106 @@
+/* line 5, ../scss/scrollar.scss */
+.scrollar-wrapper > * {
+  box-sizing: border-box;
+}
+
+/* line 9, ../scss/scrollar.scss */
+.scrollar-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative !important;
+  overflow: hidden;
+  outline: none;
+}
+
+/* line 18, ../scss/scrollar.scss */
+.scrollar-fade-hover:not([data-scrollar-hold]) > .scrollar-axis {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+/* line 24, ../scss/scrollar.scss */
+.scrollar-fade-hover:hover > .scrollar-axis {
+  opacity: 1;
+}
+
+/* line 30, ../scss/scrollar.scss */
+.scrollar-parent-absolute .scrollar-content {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* line 38, ../scss/scrollar.scss */
+.scrollar-mmb-x {
+  cursor: e-resize;
+}
+
+/* line 42, ../scss/scrollar.scss */
+.scrollar-mmb-y {
+  cursor: n-resize;
+}
+
+/* line 46, ../scss/scrollar.scss */
+.scrollar-mmb-both {
+  cursor: e-resize;
+}
+
+/* line 50, ../scss/scrollar.scss */
+.scrollar-content {
+  position: relative;
+}
+
+/* line 54, ../scss/scrollar.scss */
+.scrollar-axis {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+/* line 59, ../scss/scrollar.scss */
+.scrollar-axis.scrollar-axis-x {
+  bottom: 0;
+  left: 0;
+  height: 6px;
+}
+/* line 64, ../scss/scrollar.scss */
+.scrollar-axis.scrollar-axis-x.scrollar-both-axis {
+  right: 8px;
+}
+/* line 68, ../scss/scrollar.scss */
+.scrollar-axis.scrollar-axis-x .scrollar-handle {
+  bottom: 0;
+  top: 0;
+  left: 0;
+}
+/* line 75, ../scss/scrollar.scss */
+.scrollar-axis.scrollar-axis-y {
+  top: 0;
+  bottom: 0;
+  width: 6px;
+}
+/* line 80, ../scss/scrollar.scss */
+.scrollar-axis.scrollar-axis-y .scrollar-handle {
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* line 88, ../scss/scrollar.scss */
+.scrollar-handle-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 97, ../scss/scrollar.scss */
+.scrollar-handle {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  position: absolute;
+}
+
+/*# sourceMappingURL=scrollar.css.map */
