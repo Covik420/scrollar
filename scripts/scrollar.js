@@ -60,7 +60,6 @@
             },
             handleHold: false,
             bothAxis: false,
-            bounceValue: 150
         };
         this.axis = {};
 
@@ -102,7 +101,7 @@
                     lockAxis = parent.s.lockAxis,
                     mouseDown = e.type == 'mousedown';
 
-                if(parent.s.dragContentMobileOnly && mouseDown && contentElement.length > 0) return false;
+                if((parent.s.dragContentMobileOnly && mouseDown && contentElement.length > 0) || (e.originalEvent.changedTouches && e.originalEvent.changedTouches.length > 1)) return false;
 
                 if(mouseDown) e.preventDefault();
 
@@ -201,24 +200,32 @@
             return this;
         },
         handleKeyboard: function(event) {
+            var kb = this.s.keyboardIncrement;
+            if(kb == false && (typeof kb !== 'number' || typeof kb !== 'string')) return this;
+
             var parent = this,
                 key = event.key,
                 keyMap = {
                   x: [37, 39],
                   y: [38, 40]
                 },
-                gotAxis = false;
+                gotAxis = false,
+                gotAction = false;
 
             $.each(keyMap, function(i, val) {
-               if($.inArray(key, val) >= 0 && parent.axis[i]) {
-                   gotAxis = i;
-                   return false;
-               }
+                var directionIndex = $.inArray(key, val);
+                if(directionIndex >= 0 && parent.axis[i]) {
+                    gotAxis = i;
+                    gotAction = directionIndex == 0 ? 'd' : 'i'; //d: decrement (top/left) i: increment (bottom/right)
+                    return false;
+                }
             });
 
-            if(!gotAxis) return this;
+            if(!gotAxis || !gotAction) return this;
 
             e.preventDefault();
+
+            this.axis[gotAxis].handle.keyboardMove(gotAction);
 
             return this;
         },
@@ -362,6 +369,18 @@
             this.move(value, true);
 
             return this;
+        },
+        keyboardMove: function(action) {
+            if(action != 'd' && action != 'i') throw new ScrollarException('action for »keyboardMove« must be "d" or "i"');
+
+            var lengths = this._getLengths(),
+                keyboardIncrement = this._getSpecialValue("keyboardIncrement"),
+                value = lengths[4];
+
+            if(action === 'd') value -= keyboardIncrement;
+            else value += keyboardIncrement;
+
+            this.move(value, true);
         },
         _getSpecialValue: function(property) {
             var lengths = this._getLengths();
