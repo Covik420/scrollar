@@ -38,7 +38,7 @@
         lockAxis: false,
         primaryAxis: 'y',
         mouseWheel: 40,
-		keyboardSupport: 30,
+        keyboardIncrement: 30,
         //
         bounceEffect: true,
         mouseLock: true,
@@ -59,7 +59,7 @@
                 y: false
             },
             handleHold: false,
-            bothAxis: false,
+            bothAxis: false
         };
         this.axis = {};
 
@@ -71,7 +71,7 @@
 
         this.p.bothAxis = directions.x && directions.y;
 
-        if(this.p.directions.x || this.p.directions.y) {
+        if(directions.x || directions.y) {
             var wrapperClasses = '';
 
             if (this.s.fadeOnHover) wrapperClasses += ' scrollar-fade-hover';
@@ -96,6 +96,10 @@
             var parent = this,
                 pX = 0;
 
+            this.bindEvent(this.wrapper, 'click', function() {
+                parent.wrapper.focus();
+            });
+
             this.bindEvent(this.wrapper, 'mousedown touchstart', function(e) {
                 var contentElement = e.targetElement.closest('.scrollar-content', parent.wrapper[0]),
                     lockAxis = parent.s.lockAxis,
@@ -115,9 +119,6 @@
                     if(lockAxis == i || lockAxis === false) parent.p.hold[i] = e.pos[i] - (parent.p.handleHold ? val.handle.handle.position()[dir] : (parent.wrapper.offset()[dir] + parent.content.position()[dir]));
                 });
 
-                /*if((lockAxis == 'x' || lockAxis === false) && parent.axis.x) parent.p.hold.x = e.pos.x - (parent.p.handleHold ? parent.axis.x.handle.handle.position().left : (parent.wrapper.offset().left + parent.content.position().left));
-                if((lockAxis == 'y' || lockAxis === false) && parent.axis.y) parent.p.hold.y = e.pos.y - parent.axis.y.handle.handle.position().top;*/
-
                 window['currentScrollarInstance'] = parent;
             });
 
@@ -129,9 +130,6 @@
 
                         if(i == 'x' && (Math.abs(e.pos[i] - pX) > 30)) e.preventDefault();
                     });
-
-                    /*if(parent.p.hold.x !== false) parent.axis.x.handle.move(e.pos.x - parent.p.hold.x - (parent.p.handleHold ? 0 : parent.wrapper.offset().left), parent.p.handleHold);
-                    if(parent.p.hold.y !== false) parent.axis.y.handle.move(e.pos.y - parent.p.hold.y);*/
 
                     parent.wrapper.attr('data-scrollar-hold', true);
                 }
@@ -150,12 +148,8 @@
             });
 
             this.bindEvent(this.wrapper, 'mousewheel DOMMouseScroll', function(e) {
-				parent.handleWheel(e);
+                parent.handleWheel(e);
             });
-			
-			this.bindEvent(this.wrapper, 'click', function() {
-				parent.wrapper.focus();
-			});
 			
 			this.bindEvent(this.wrapper, 'keydown', function(e) {
 				parent.handleKeyboard(e);
@@ -199,12 +193,12 @@
 
             return this;
         },
-        handleKeyboard: function(event) {
+        handleKeyboard: function(e) {
             var kb = this.s.keyboardIncrement;
             if(kb == false && (typeof kb !== 'number' || typeof kb !== 'string')) return this;
 
             var parent = this,
-                key = event.key,
+                key = e.key,
                 keyMap = {
                   x: [37, 39],
                   y: [38, 40]
@@ -357,7 +351,7 @@
             return this;
         },
         wheelMove: function(dir) {
-            if(dir !== 'up' && dir !== 'down') throw new ScrollarException('dir should be "up" or "down"');
+            if(dir !== 'up' && dir !== 'down') throw new ScrollarException('dir for »wheelMove« must be "up" or "down"');
 
             var lengths = this._getLengths(),
                 mouseWheel = this._getSpecialValue("mouseWheel"),
@@ -387,7 +381,7 @@
 
             switch(property) {
                 case "mouseWheel":
-                case "keyboard":
+                case "keyboardIncrement":
                 break;
 
                 default:
